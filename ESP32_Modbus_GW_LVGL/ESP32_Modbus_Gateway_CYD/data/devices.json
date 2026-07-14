@@ -1,0 +1,30 @@
+{
+	"devices":[
+		{
+			"name":"UPS Main",
+			"slaveId":1,
+			"baudRate":19200,
+			"parity":"N",
+			"stopBits":1,
+			"fc":3,
+			"regAddress":0,
+			"regCount":10,
+			"dataType":"UInt16",
+			"pollInterval":1000,
+			"enabled":true
+		},
+		{
+			"name":"Energy Meter",
+			"slaveId":2,
+			"baudRate":9600,
+			"parity":"N",
+			"stopBits":1,
+			"fc":4,
+			"regAddress":0,
+			"regCount":10,
+			"dataType":"Float",
+			"pollInterval":2000,
+			"enabled":true
+		}
+	]
+}

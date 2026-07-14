@@ -1,0 +1,17 @@
+{
+"ssid":"PSI_Corp",
+"password":"Pass1234",
+"apSSID":"ModbusGW-ESP32",
+"apPassword":"Admin12345",
+"wifiMode":2,
+"baudRate":19200,
+"parity":"E",
+"stopBits":1,
+"tcpPort":502,
+"maxClients":10,
+"tcpTimeout":5000,
+"pollRate":1000,
+"webUser":"admin",
+"webPass":"Admin12345",
+"otaPassword":"otaAdmin12345"
+}

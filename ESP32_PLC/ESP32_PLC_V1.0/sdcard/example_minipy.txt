@@ -1,0 +1,5 @@
+# Example mini-Python script (very small subset)
+# Turn DO1 on when DI1 is pressed
+IF DI1: DO1 = 1
+# Turn DO2 on when ADC > 2000
+IF ADC > 2000: DO2 = 1

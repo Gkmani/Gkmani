@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ESP32 PLC UI</title>
+  <style>
+    body{font-family: Arial, Helvetica, sans-serif; margin: 20px;}
+    .card{border:1px solid #ddd; padding:10px; margin:8px;}
+  </style>
+</head>
+<body>
+<h2>ESP32 PLC - Dashboard</h2>
+<div class="card">
+  <div>DI1: <span id="di1">?</span></div>
+  <div>DI2: <span id="di2">?</span></div>
+  <div>ADC: <span id="adc">?</span></div>
+</div>
+<div class="card">
+  <h3>Upload Script</h3>
+  <form id="uploadForm">
+    <input type="file" id="fileInput" name="file"><br><br>
+    <button type="button" onclick="upload()">Upload to SD</button>
+  </form>
+</div>
+<div class="card">
+  <h3>Scripts on SD</h3>
+  <button onclick="listScripts()">Refresh</button>
+  <ul id="scripts"></ul>
+</div>
+<div class="card">
+  <h3>Load Script</h3>
+  Path: <input id="path" value=""><br>
+  Type: <select id="type"><option value="1">Ladder</option><option value="2">Mini-Python</option><option value="3">Lua (placeholder)</option></select><br>
+  <button onclick="loadScript()">Load</button>
+  <div id="loadResult"></div>
+</div>
+
+<script>
+async function fetchStatus() {
+  try {
+    const res = await fetch('/status');
+    const j = await res.json();
+    document.getElementById('di1').innerText = j.di1;
+    document.getElementById('di2').innerText = j.di2;
+    document.getElementById('adc').innerText = j.adc;
+  } catch(e) {}
+}
+setInterval(fetchStatus, 1000);
+fetchStatus();
+
+async function upload() {
+  const f = document.getElementById('fileInput').files[0];
+  if (!f) return alert('Choose a file');
+  const form = new FormData();
+  form.append('file', f);
+  const res = await fetch('/upload', {method:'POST', body: form});
+  alert('Uploaded');
+}
+
+async function listScripts() {
+  const res = await fetch('/listscripts');
+  const arr = await res.json();
+  const ul = document.getElementById('scripts');
+  ul.innerHTML='';
+  for (let p of arr) {
+    const li = document.createElement('li');
+    li.innerText = p;
+    li.onclick = () => { document.getElementById('path').value = p; };
+    ul.appendChild(li);
+  }
+}
+
+async function loadScript() {
+  const path = document.getElementById('path').value;
+  const type = document.getElementById('type').value;
+  const body = new FormData();
+  body.append('path', path);
+  body.append('type', type);
+  const res = await fetch('/loadscript', {method:'POST', body: body});
+  const txt = await res.text();
+  document.getElementById('loadResult').innerText = txt;
+}
+</script>
+</body>
+</html>

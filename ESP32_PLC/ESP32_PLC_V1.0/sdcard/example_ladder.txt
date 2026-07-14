@@ -1,0 +1,8 @@
+# Example ladder logic
+LD DI1
+AND DI2
+OUT DO1
+
+# second rung
+LD DI1
+OUT DO2
